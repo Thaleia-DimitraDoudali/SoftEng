@@ -1,0 +1,19 @@
+/Association.java/1.1/Wed Sep 14 20:39:46 2005//
+/Configuration.java/1.1/Wed Sep 14 20:39:47 2005//
+/Proxy.java/1.5/Wed Nov 30 14:38:59 2005//
+/ProxyConfigurationHandler.java/1.1/Wed Sep 14 20:39:46 2005//
+/ProxyDebug.java/1.1/Wed Sep 14 20:39:46 2005//
+/ProxyUtilities.java/1.1/Wed Sep 14 20:39:46 2005//
+/RequestForwarding.java/1.1/Wed Sep 14 20:39:46 2005//
+/RequestValidation.java/1.1/Wed Sep 14 20:39:46 2005//
+/ResponseForwarding.java/1.1/Wed Sep 14 20:39:46 2005//
+/ServiceInfo.java/-1.1/Tue Nov 22 21:52:33 2005//
+/StopProxy.java/1.1/Wed Sep 14 20:39:46 2005//
+/TransactionsMapping.java/1.1/Wed Sep 14 20:39:46 2005//
+/WebServicesQuery.java/-1.4/Wed Nov 30 15:03:19 2005//
+D/authentication////
+D/configuration////
+D/gui////
+D/presenceserver////
+D/registrar////
+D/router////
