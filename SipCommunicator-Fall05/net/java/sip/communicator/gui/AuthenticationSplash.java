@@ -81,6 +81,7 @@ public class AuthenticationSplash
     JTextField userNameTextField = null;
     JLabel     realmValueLabel = null;
     JPasswordField passwordTextField = null;
+    boolean shouldRegister = false;
 
     /**
      * Resource bundle with default locale
@@ -112,11 +113,19 @@ public class AuthenticationSplash
      * not be internationalized.
      */
     private String CMD_LOGIN = "cmd.login" /*NOI18N*/;
+    
+	/**
+	 * Command string for a register action (e.g., a button). This string is
+	 * never presented to the user and should not be internationalized.
+	 */
+	private String CMD_REGISTER = "cmd.register" /* NOI18N */;
 
     // Components we need to manipulate after creation
     private JButton loginButton = null;
     private JButton cancelButton = null;
     private JButton helpButton = null;
+	private JButton registerButton = null;
+
 
     /**
      * Creates new form AuthenticationSplash
@@ -367,6 +376,20 @@ public class AuthenticationSplash
             }
         });
         //buttonPanel.add(helpButton);
+        
+        //Register button
+     	buttonPanel.add(Box.createRigidArea(new Dimension(5, 0)));
+
+     	registerButton = new JButton();
+     	registerButton.setText("Register");
+     	registerButton.setActionCommand(CMD_REGISTER);
+     	registerButton.addActionListener(new ActionListener() {
+     		public void actionPerformed(ActionEvent event) {
+     			dialogDone(event);
+     		}
+     	});
+     	buttonPanel.add(registerButton);
+        
         c = new GridBagConstraints();
         c.gridx = 0;
         c.gridy = 3;
@@ -462,6 +485,9 @@ public class AuthenticationSplash
             userName = userNameTextField.getText();
             password = passwordTextField.getPassword();
         }
+        else if (cmd.equals(CMD_REGISTER)) {
+			shouldRegister = true;
+		}
         setVisible(false);
         dispose();
     } // dialogDone()
