@@ -2,6 +2,7 @@ package net.java.sip.communicator.db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -25,6 +26,25 @@ public class RegisterDB {
 			//Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	//Check if there is an existing user with that username
+	public boolean checkRegister(String username) {
+
+		try {
+			if (connection == null)
+				register();
+			statement = connection.createStatement();
+			String sql = "SELECT userId FROM users where username = '" + username + "'";
+			ResultSet rs = statement.executeQuery(sql);
+			if (rs.next())
+				return true;
+		} catch (SQLException e) {
+			//Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+		
 	}
 	
 	public void registerToDB(String username, String passwd, String email, String creditCard) {
