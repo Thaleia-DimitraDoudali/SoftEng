@@ -1,0 +1,29 @@
+How user registration works:
+
+Sip Communicator - press 
+	SipCommunicator.java (main) -> calls sipManager.startRegisterProcess() -> calls securityAuthority.obtainCredentials() which is 
+	implemented in SipCommunicator.java -> if (guiManager.shouldRegister()) then obtainCredentialsAndRegister(); ->
+	shows RegistrationSplash window and registers user to database
+	
+	The sipmanager during register process calls getCredentials. This
+depending on the registration state (should or should not register)
+calls the equivalent method in order to show the register panel or
+not.
+
+
+sipmanager->startregisterprocess() -> state getcredentials
+
+sipmanager->setsecurityauthority->regstate=onlylogin
+
+if user not exists:
+	login redirects to register
+	register works ok
+if user exits
+	login works ok
+	register shouldn't work..->check done on obtainCredentialsAndRegister
+	
+Proxy's side:
+	Registrar.java: dbManager.checkRegister(username) if username already on database then register request returns not_found ->
+	on sip communicator SipManager.java when we get a not_found response from register request we do the following:
+	according to reg state the proper getcredentials will be called
+	

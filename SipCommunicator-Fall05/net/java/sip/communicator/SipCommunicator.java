@@ -1009,5 +1009,8 @@ public class SipCommunicator
         return SubscriptionAuthorizationResponse.createResponse(response);
     }
 }
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 205dd9f53504fac691bd32b85fa68dfe7c81b58f

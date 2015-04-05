@@ -53556,6 +53556,7 @@ Proxy stopped
 
 *****************************************************
 
+<<<<<<< HEAD
 DEBUG properties set!
 The proxy is responsible for the domain:192.168.1.202
 Here is one domain to take care of:there.com
@@ -54962,3 +54963,5 @@ Content-Length: 0
 
 
 DEBUG, PresenceServer, getKey(), the key is: sip:lalaasdasdas@192.168.2.4:4000
+=======
+>>>>>>> 205dd9f53504fac691bd32b85fa68dfe7c81b58f

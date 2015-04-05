@@ -32,8 +32,13 @@
         <sip>
             <PUBLIC_ADDRESS value="sip:thaleia"/>
             <TRANSPORT value=""/>
+<<<<<<< HEAD
             <REGISTRAR_ADDRESS value="192.168.2.4:4000"/>
             <USER_NAME value="lalaasdasdas"/>
+=======
+            <REGISTRAR_ADDRESS value="192.168.1.202:4000"/>
+            <USER_NAME value="thaleia2"/>
+>>>>>>> 205dd9f53504fac691bd32b85fa68dfe7c81b58f
             <STACK_PATH value="gov.nist"/>
             <PREFERRED_LOCAL_PORT value="5060"/>
             <DISPLAY_NAME value="thaleia"/>
@@ -41,8 +46,13 @@
             <REGISTRATIONS_EXPIRATION value="3600"/>
             <REGISTRAR_PORT value="5060"/>
 
+<<<<<<< HEAD
             <DEFAULT_DOMAIN_NAME value="192.168.2.4:4000"/>
             <DEFAULT_AUTHENTICATION_REALM value="192.168.2.4:4000"/>
+=======
+            <DEFAULT_DOMAIN_NAME value="192.168.1.202:4000"/>
+            <DEFAULT_AUTHENTICATION_REALM value="192.168.1.202:4000"/>
+>>>>>>> 205dd9f53504fac691bd32b85fa68dfe7c81b58f
             <WAIT_UNREGISTGRATION_FOR value="1100"/>
             <SAME_USER_EVERYWHERE value="true"/>
             <simple>
@@ -114,10 +124,17 @@ net.java.sip.communicator.gui.PASSWORD_LABEL=Password:
 </gov>
 <javax>
     <sip>
+<<<<<<< HEAD
         <IP_ADDRESS value="192.168.2.4"/>
         <STACK_NAME value="sip-communicator"/>
         <ROUTER_PATH value="net.java.sip.communicator.sip.SipCommRouter"/>
         <OUTBOUND_PROXY value="192.168.2.4:4000/udp"/>
+=======
+        <IP_ADDRESS value="192.168.1.202"/>
+        <STACK_NAME value="sip-communicator"/>
+        <ROUTER_PATH value="net.java.sip.communicator.sip.SipCommRouter"/>
+        <OUTBOUND_PROXY value="192.168.1.202:4000/udp"/>
+>>>>>>> 205dd9f53504fac691bd32b85fa68dfe7c81b58f
         <RETRANSMISSON_FILTER value=""/>
         <EXTENSION_METHODS value=""/>
         <RETRANSMISSION_FILTER value="true"/>

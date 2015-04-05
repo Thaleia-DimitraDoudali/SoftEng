@@ -1,0 +1,12 @@
+1. start xampp
+2. C:/xampp/mysql/bin/mysql -u root
+3. mysql> create database softeng;
+4. mysql> use softeng;
+5. mysql> CREATE TABLE users (
+	userId INT NOT NULL AUTO_INCREMENT PRIMARY KEY, 
+	username VARCHAR(200), 
+	password VARCHAR(200),
+	creditCard VARCHAR(200),
+	email VARCHAR(200),
+	plan INT(10));
+6. Put mysql jar to communicator's and proxy's build path as external jar

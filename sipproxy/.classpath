@@ -6,6 +6,9 @@
 	<classpathentry kind="lib" path="lib/nist-sdp-1.0.jar"/>
 	<classpathentry kind="lib" path="lib/nist-sip-1.2.jar"/>
 	<classpathentry kind="lib" path="lib/tracesviewer.jar"/>
+<<<<<<< HEAD
 	<classpathentry kind="lib" path="C:/Users/Thaleia/Desktop/eclipse-softeng/mysql-connector-java-5.0.8-bin.jar"/>
+=======
+>>>>>>> 205dd9f53504fac691bd32b85fa68dfe7c81b58f
 	<classpathentry kind="output" path=""/>
 </classpath>

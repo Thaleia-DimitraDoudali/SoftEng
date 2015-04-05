@@ -1,0 +1,20 @@
+--Proxy--
+
+New:
+gov.nist.sip.db -> RegisterDB
+
+Modified:
+gov.nist.sip.proxy.registrar -> Registrar.java
+
+
+
+--Sip Communicator--
+
+New:
+net.java.sip.communicator.db -> RegisterDB.java
+net.java.sip.communicator.gui -> RegistrationSplash.java
+
+Modified:
+net.java.sip.communicator.gui -> AuthenticationSplash.java, GuiManager.java
+net.java.sip.communicator -> SipCommunicator.java
+net.java.sip.communicator.sip ->SipManager.java
