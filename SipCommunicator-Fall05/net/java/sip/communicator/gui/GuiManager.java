@@ -119,6 +119,8 @@ public class GuiManager
     VoiceMailAction voiceMailAction = null;
     MySipphoneAction mySipphoneAction = null;
     private AuthenticationSplash authenticationSplash = null;
+	private RegistrationSplash registrationSplash = null;
+
 
     static boolean isThisSipphoneAnywhere = false;
 
@@ -677,15 +679,41 @@ public class GuiManager
         authenticationSplash.show();
     }
 
-    public String getAuthenticationUserName()
-    {
-        return authenticationSplash.userName;
-    }
+	public String getAuthenticationUserName() {
+		return authenticationSplash.userName == null ? registrationSplash.userName
+				: authenticationSplash.userName;
+	}
 
-    public char[] getAuthenticationPassword()
-    {
-        return authenticationSplash.password;
-    }
+	public char[] getAuthenticationPassword() {
+		return authenticationSplash.password == null ? registrationSplash.password
+				: authenticationSplash.password;
+	}
+    
+	public String getEmail() {
+		return registrationSplash.mail;
+	}
+	
+	public String getCreditCard() {
+		return registrationSplash.creditCardNo;
+	}
+	/*
+	 * Check if register button is checked
+	 */
+	public boolean shouldRegister() {
+		return authenticationSplash.shouldRegister;
+	}
+
+	/*
+	 * Show register panel
+	 */
+	public void requestRegistration() {
+		if (registrationSplash != null)
+			registrationSplash.dispose();
+		registrationSplash = new RegistrationSplash(phoneFrame, true);
+
+		registrationSplash.show();
+
+	}
 
     /**
      * Displays a SubscriptionAuthorizationDialog that demands the user to

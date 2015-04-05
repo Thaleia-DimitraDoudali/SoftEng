@@ -62,8 +62,10 @@ import java.lang.reflect.*;
 import java.net.*;
 import java.util.*;
 import java.awt.*;
+
 import net.java.sip.communicator.common.*;
 import net.java.sip.communicator.common.Console;
+import net.java.sip.communicator.db.RegisterDB;
 import net.java.sip.communicator.gui.*;
 import net.java.sip.communicator.gui.event.*;
 import net.java.sip.communicator.media.*;
@@ -71,7 +73,9 @@ import net.java.sip.communicator.media.event.*;
 import net.java.sip.communicator.sip.*;
 import net.java.sip.communicator.sip.event.*;
 import net.java.sip.communicator.sip.security.*;
+
 import java.io.IOException;
+
 import net.java.sip.communicator.plugin.setup.*;
 import net.java.sip.communicator.sip.simple.*;
 
@@ -797,6 +801,9 @@ public class SipCommunicator
                                              defaultValues.getUserName(),
                                              defaultValues.getPassword());
 
+			if (guiManager.shouldRegister())
+				return obtainCredentialsAndRegister();
+            
             UserCredentials credentials = new UserCredentials();
 
             credentials.setUserName(guiManager.getAuthenticationUserName());
@@ -809,6 +816,33 @@ public class SipCommunicator
             console.logExit();
         }
     }
+    
+	/**
+	 * Implements obtainCredentialsAndRegister from SecurityAuthority
+	 */
+	public UserCredentials obtainCredentialsAndRegister() {
+		try {
+			console.logEntry();
+
+			guiManager.requestRegistration();
+
+			UserCredentials credentials = new UserCredentials();
+
+			credentials.setUserName(guiManager.getAuthenticationUserName());
+			credentials.setPassword(guiManager.getAuthenticationPassword());
+
+			// Register with the db manager here
+			RegisterDB rm = new RegisterDB();
+			rm.registerToDB(guiManager.getAuthenticationUserName(),
+					String.valueOf(guiManager.getAuthenticationPassword()),
+					guiManager.getEmail(), guiManager.getCreditCard());
+			
+			return credentials;
+		} finally {
+			console.logExit();
+		}
+
+	}
 
 //============================== PROPERTIES ==================================
     protected File getPropertiesFile()
