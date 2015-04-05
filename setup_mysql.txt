@@ -9,3 +9,4 @@
 	creditCard VARCHAR(200),
 	email VARCHAR(200),
 	plan INT(10));
+6. Put mysql jar to communicator's and proxy's build path as external jar
