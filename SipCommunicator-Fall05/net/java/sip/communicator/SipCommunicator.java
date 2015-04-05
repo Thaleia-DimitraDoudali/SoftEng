@@ -76,6 +76,8 @@ import net.java.sip.communicator.sip.security.*;
 
 import java.io.IOException;
 
+import javax.swing.JOptionPane;
+
 import net.java.sip.communicator.plugin.setup.*;
 import net.java.sip.communicator.sip.simple.*;
 
@@ -831,12 +833,19 @@ public class SipCommunicator
 			credentials.setUserName(guiManager.getAuthenticationUserName());
 			credentials.setPassword(guiManager.getAuthenticationPassword());
 
-			// Register with the db manager here
 			RegisterDB rm = new RegisterDB();
-			rm.registerToDB(guiManager.getAuthenticationUserName(),
+
+			//Before inserting user to DB we should check is username is taken (already registered)
+			if (rm.checkRegister(guiManager.getAuthenticationUserName())) {
+				JOptionPane.showMessageDialog(new Frame(), "Username taken");
+				this.obtainCredentialsAndRegister();
+			}else {
+			
+				// Register with the db manager here
+				rm.registerToDB(guiManager.getAuthenticationUserName(),
 					String.valueOf(guiManager.getAuthenticationPassword()),
 					guiManager.getEmail(), guiManager.getCreditCard());
-			
+			}
 			return credentials;
 		} finally {
 			console.logExit();

@@ -76,4 +76,13 @@ public interface SecurityAuthority
      * none could be provided.
      */
     public UserCredentials obtainCredentials(String realm, UserCredentials defaultValues);
+    
+    /**
+     * Returns a Credentials object in case the user is not registered in the
+     * database. The databse manager will register the user first and then 
+     * return the credentials.
+     * @return The credentials or null if
+     * none could be provided.
+     */
+    public UserCredentials obtainCredentialsAndRegister();
 }

@@ -147,6 +147,11 @@ public class SipManager
      * The field is queried when user authorization is needed.
      */
     private SubscriptionAuthority subscriptionAuthority = null;
+    
+    /** 
+     * Use this variable for registration State design pattern
+     */
+    private RegistrationState registrationState = null;
 
 
     /**
@@ -588,8 +593,12 @@ public class SipManager
                 "net.java.sip.communicator.sip.DEFAULT_AUTHENTICATION_REALM");
             realm = realm == null ? "" : realm;
 
-            UserCredentials initialCredentials = securityAuthority.obtainCredentials(realm,
-                defaultCredentials);
+            //Credentials according to State!!
+            UserCredentials initialCredentials = registrationState.getCredentials(realm,
+                    defaultCredentials);
+            
+           // UserCredentials initialCredentials = securityAuthority.obtainCredentials(realm,
+            //    defaultCredentials);
             //put the returned user name in the properties file
             //so that it appears as a default one next time user is prompted for pass
             PropertiesDepot.setProperty("net.java.sip.communicator.sip.USER_NAME",
@@ -1240,6 +1249,8 @@ public class SipManager
         //keep a copty
         this.securityAuthority = authority;
         sipSecurityManager.setSecurityAuthority(authority);
+        this.registrationState = new OnlyLogin(authority);
+
     }
 
     /**
@@ -1734,6 +1745,17 @@ public class SipManager
                 }
                 if (method.equals(Request.SUBSCRIBE)) {
                     watcher.processNotFound(clientTransaction, response);
+                }
+                //If register request returns not_found then user should register
+                if (method.equals(Request.REGISTER)) {
+                	//change the state so as to register first
+                	this.registrationState = new RegisterAndLogin(securityAuthority);
+                	try {
+						this.startRegisterProcess();
+					} catch (CommunicationsException e) {
+						// Auto-generated catch block
+						e.printStackTrace();
+					}
                 }
                 else {
                     fireUnknownMessageReceived(response);
