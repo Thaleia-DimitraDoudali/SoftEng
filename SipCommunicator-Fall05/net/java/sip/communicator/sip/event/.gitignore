@@ -1,0 +1,9 @@
+/CallEvent.class
+/CallListener.class
+/CallRejectedEvent.class
+/CallStateEvent.class
+/CommunicationsErrorEvent.class
+/CommunicationsListener.class
+/MessageEvent.class
+/RegistrationEvent.class
+/UnknownMessageEvent.class
