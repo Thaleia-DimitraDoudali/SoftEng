@@ -7,12 +7,16 @@ import javax.sip.*;
 import javax.sip.message.*;
 import javax.sip.header.*;
 import javax.sip.address.*;
+
 import gov.nist.sip.proxy.registrar.*;
+
 import java.text.ParseException;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+
 import gov.nist.sip.proxy.authentication.*;
+import gov.nist.sip.proxy.billing.ManageBilling;
 import gov.nist.sip.proxy.presenceserver.*;
 import gov.nist.sip.proxy.router.*;
 import gov.nist.javax.sip.header.*;
@@ -53,6 +57,9 @@ public class Proxy implements SipListener  {
     protected Authentication authentication;
     protected RequestForwarding requestForwarding;
     protected ResponseForwarding responseForwarding;
+    
+    //billing
+    protected ManageBilling manageBilling;
 
    
     public RequestForwarding getRequestForwarding() {
@@ -147,7 +154,8 @@ public class Proxy implements SipListener  {
                     registrar=new Registrar(this);
                     requestForwarding=new RequestForwarding(this);
                     responseForwarding=new ResponseForwarding(this);
-                }
+                    //billing
+                    manageBilling = new ManageBilling();                }
             }
             catch (Exception ex) {
                 System.out.println
@@ -236,6 +244,7 @@ public class Proxy implements SipListener  {
                     " targeted for the proxy, we ignore it");
                     return;
                 }
+                manageBilling.startBilling(request);
             }
             
            
@@ -578,6 +587,9 @@ public class Proxy implements SipListener  {
 			("Proxy, null server transactin for BYE");
 		  return;
 		}
+	    
+	    manageBilling.stopBilling(request);
+	     
 		Dialog d = serverTransaction.getDialog();
 		TransactionsMapping transactionsMapping = 
 			(TransactionsMapping) d.getApplicationData();

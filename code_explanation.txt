@@ -39,3 +39,25 @@ Check user registration:
 	login of user not existing in database: registration window pops up
 	register of user existing in database: alerts user that username is taken
 	register of user not existing in database: ok
+	
+	
+How Billing works:
+	1. gov.nist.sip.proxy.Proxy.java: function Proxy(String confFile) creates the proxy. 
+		There we create a new billing manager manageBilling = new ManageBilling()
+		manageBilling.startBilling(request) when proxy receives an ACK
+		manageBilling.stopBilling(request) when proxy receives BYE
+		
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

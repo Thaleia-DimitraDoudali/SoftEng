@@ -10,3 +10,10 @@
 	email VARCHAR(200),
 	plan INT(10));
 6. Put mysql jar to communicator's and proxy's build path as external jar
+7. mysql> CREATE TABLE billing (
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, 
+	caller VARCHAR(200),
+	callee VARCHAR(200),
+	start_time bigint(20),
+	duration bigint(20),
+	cost decimal(10,3));
