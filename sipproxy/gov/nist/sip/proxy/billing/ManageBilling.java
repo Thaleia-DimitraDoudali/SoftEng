@@ -37,12 +37,16 @@ public class ManageBilling {
 		String caller = getNameFromHeader(header);
 		header = (HeaderAddress) request.getHeader(ToHeader.NAME);
 		String callee = getNameFromHeader(header);
-		String start_time = billingDB.getBillingRecord(caller, callee);
-		System.out.println("start_time = " + start_time);
+		BillingObject billObj = billingDB.getBillingRecord(caller, callee);
+		billObj.print();
+		
+		//Calculate duration
+		long duration = (long) Math.ceil((System.currentTimeMillis() - billObj.startTime) / (double) 1000);
+		System.out.println("Duration = " + duration);
+		
+		//Set duration on billing record
+		billingDB.setBillingRecord(billObj.id, duration);
 	}
 	
-	
-	
-	
-	
+
 }

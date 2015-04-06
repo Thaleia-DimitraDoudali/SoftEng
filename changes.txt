@@ -2,7 +2,7 @@
 
 New:
 gov.nist.sip.db -> RegisterDB.java, BillingDB.java
-gov.nist.sip.proxy.billing -> ManageBilling.java
+gov.nist.sip.proxy.billing -> ManageBilling.java, BillingObject.java
 
 Modified:
 gov.nist.sip.proxy.registrar -> Registrar.java

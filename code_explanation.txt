@@ -51,8 +51,7 @@ How Billing works:
 			sip request header has certain fields (google it), so we extract caller and callee from the headers, and we save them on the database.
 			caller will be the one charged at the end.			
 		stopBilling():
-			we extract from the database the caller's record, see what the current time is and set duration.
-	
+			we extract from the database the caller's record into a billing object, see what the current time is and set duration.
 	
 	
 	

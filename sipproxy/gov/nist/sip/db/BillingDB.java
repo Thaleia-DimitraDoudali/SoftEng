@@ -1,5 +1,7 @@
 package gov.nist.sip.db;
 
+import gov.nist.sip.proxy.billing.BillingObject;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -44,23 +46,44 @@ public class BillingDB {
 		}		
 	}
 	
-	public String getBillingRecord(String caller, String callee) {
+	public void setBillingRecord(int id, long duration) {
+		try {
+			if (connection == null)
+				connect();
+			statement = connection.createStatement();
+			String sql = String.format("UPDATE billing SET duration = %d WHERE id = %d LIMIT 1;", duration, id);
+			statement.executeUpdate(sql);
+		} catch (SQLException e) {
+			// Auto-generated catch block
+			e.printStackTrace();
+		}	
+	}
+	
+	
+	public BillingObject getBillingRecord(String caller, String callee) {
 		try {
 			if (connection == null)
 				connect();
 			statement = connection.createStatement();
 			//Since BYE can be sent from either caller or callee, we search both combinations of caller, callee in order to find 
 			//the record for the specific call we're on, the one with duration = -1, not set yet. 
-			String sql = String.format("SELECT start_time FROM billing WHERE "
+			String sql = String.format("SELECT * FROM billing WHERE "
 					+ "(caller = '%s' AND callee = '%s' AND duration = '-1') OR"
 					+ "(caller = '%s' AND callee = '%s' AND duration = '-1')",
 							caller, callee, callee, caller);
 			System.out.println(sql);
 			ResultSet rs = statement.executeQuery(sql);
-			String time = "";
-			if (rs.next())
-				time = rs.getString("start_time");
-			return time;
+			int id = -1;
+			Long time = (long) -1;
+			String username = "";
+			BillingObject obj = null;
+			if (rs.next()) {
+				id = rs.getInt("id");
+				time = rs.getLong("start_time");
+				username = rs.getString("caller");
+				obj = new BillingObject(id, time, username);
+			}
+			return obj;
 		} catch (SQLException e) {
 			// Auto-generated catch block
 			e.printStackTrace();
