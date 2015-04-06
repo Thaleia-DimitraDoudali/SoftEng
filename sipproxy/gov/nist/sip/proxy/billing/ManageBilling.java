@@ -33,6 +33,16 @@ public class ManageBilling {
 	}
 	
 	public void stopBilling(Request request) {
-		
+		HeaderAddress header = (HeaderAddress) request.getHeader(FromHeader.NAME);
+		String caller = getNameFromHeader(header);
+		header = (HeaderAddress) request.getHeader(ToHeader.NAME);
+		String callee = getNameFromHeader(header);
+		String start_time = billingDB.getBillingRecord(caller, callee);
+		System.out.println("start_time = " + start_time);
 	}
+	
+	
+	
+	
+	
 }
