@@ -46,7 +46,12 @@ How Billing works:
 		There we create a new billing manager manageBilling = new ManageBilling()
 		manageBilling.startBilling(request) when proxy receives an ACK
 		manageBilling.stopBilling(request) when proxy receives BYE
-		
+	2. gov.nist.sip.proxy.billing.ManageBilling.java:
+		startBilling():
+			sip request header has certain fields (google it), so we extract caller and callee from the headers, and we save them on the database.
+			caller will be the one charged at the end.			
+		stopBilling():
+			we extract from the database the caller's record, see what the current time is and set duration.
 	
 	
 	
