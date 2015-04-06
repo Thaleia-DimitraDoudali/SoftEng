@@ -1,5 +1,6 @@
 # SoftEng
 Project for Software Engineering class 2014-2015 @ ECE NTUA
+Collaborators: Maria Karouta, Vasiliki Savva
 
 Stand-alone run instructions:
 
