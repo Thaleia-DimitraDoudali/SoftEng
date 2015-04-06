@@ -26,20 +26,20 @@
             <MEDIA_SOURCE value=""/>
             <MEDIA_BUFFER_LENGTH value="100"/>
             <IP_ADDRESS value=""/>
-            <AUDIO_PORT value="22224"/>
-            <VIDEO_PORT value="22222"/>
+            <AUDIO_PORT value="22223"/>
+            <VIDEO_PORT value="22221"/>
         </media>
         <sip>
-            <PUBLIC_ADDRESS value="sip:thaleia"/>
+            <PUBLIC_ADDRESS value="sip:"/>
             <TRANSPORT value=""/>
             <REGISTRAR_ADDRESS value="192.168.2.4:4000"/>
-            <USER_NAME value="j"/>
+            <USER_NAME value="lala"/>
             <STACK_PATH value="gov.nist"/>
             <PREFERRED_LOCAL_PORT value="5060"/>
-            <DISPLAY_NAME value="thaleia"/>
+            <DISPLAY_NAME value=""/>
             <REGISTRAR_TRANSPORT value="UDP"/>
             <REGISTRATIONS_EXPIRATION value="3600"/>
-            <REGISTRAR_PORT value="5060"/>
+            <REGISTRAR_PORT value="5061"/>
 
             <DEFAULT_DOMAIN_NAME value="192.168.2.4:4000"/>
             <DEFAULT_AUTHENTICATION_REALM value="192.168.2.4:4000"/>

@@ -10,9 +10,6 @@
 	<classpathentry exported="true" kind="lib" path="lib/jmf.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jmf-native.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/sound.jar"/>
-<<<<<<< HEAD
 	<classpathentry kind="lib" path="C:/Users/Thaleia/Desktop/eclipse-softeng/mysql-connector-java-5.0.8-bin.jar"/>
-=======
->>>>>>> 205dd9f53504fac691bd32b85fa68dfe7c81b58f
 	<classpathentry kind="output" path=""/>
 </classpath>

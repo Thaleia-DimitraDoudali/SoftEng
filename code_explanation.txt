@@ -1,29 +1,41 @@
 How user registration works:
 
-Sip Communicator - press 
-	SipCommunicator.java (main) -> calls sipManager.startRegisterProcess() -> calls securityAuthority.obtainCredentials() which is 
-	implemented in SipCommunicator.java -> if (guiManager.shouldRegister()) then obtainCredentialsAndRegister(); ->
-	shows RegistrationSplash window and registers user to database
-	
-	The sipmanager during register process calls getCredentials. This
-depending on the registration state (should or should not register)
-calls the equivalent method in order to show the register panel or
-not.
+Sip Communicator:
+	1. Main function runs from net.java.sip.communicator.SipCommunicator.java:
+		launch() -> sipManager.startRegisterProcess();
+	2. net.java.sip.communicator.sip.SipManager.java:
+		startRegisterProcess() -> registrationState.getCredentials(realm, defaultCredentials);
+		This is the point where we use the state design pattern. According to what the registrationState variable is, a different 
+		getCredentials will be called.
+	3. net.java.sip.communicator.sip.security:
+		RegistrationState.java: this is the interface for the state design pattern -> getCredentials()
+		RegisterAndLogin.java, OnlyLogin.java : these are the two classes that implement the above interface.
+		OnlyLogin.java -> authority.obtainCredentials(realm, defaultValues);
+		RegisterAndLogin.java -> getCredentials() -> authority.obtainCredentialsAndRegister();
+	4. obtainCredentials() and obtainCredentialsAndRegister() are implemented in SipCommunicator.java:
+		obtainCredentials(): does the login, but first checks if the user pressed the register button.
+			if (guiManager.shouldRegister()) return authenticationSplash.shouldRegister;
+				AythenticationSplash.java: basically, is the first window we see for the user authentication. If the user presses the register 
+				button (which we added on the authenticationSplash), then shouldRegister = true;
+		obtainCredentialsAndRegister(): does the registration.
+			First, guiManager.requestRegistration(), it presents the registration window to the user which is implemented in RegistrationSplash.java 
+			Then, it should add the user info to the database. But first, it checks if the username is taken and alerts the user (I did that myself, haha!)
+	5. But how registrationState variable is set?
+		SipCommunicator.java -> launch() -> sipManager.setSecurityAuthority(this) -> this.registrationState = new OnlyLogin(authority)
+		So at the beginning the state of the registration is set to be only login.
+		The only way to set the registrationState = RegisterAndLogin is through the proxy.
 
-
-sipmanager->startregisterprocess() -> state getcredentials
-
-sipmanager->setsecurityauthority->regstate=onlylogin
-
-if user not exists:
-	login redirects to register
-	register works ok
-if user exits
-	login works ok
-	register shouldn't work..->check done on obtainCredentialsAndRegister
-	
 Proxy's side:
-	Registrar.java: dbManager.checkRegister(username) if username already on database then register request returns not_found ->
-	on sip communicator SipManager.java when we get a not_found response from register request we do the following:
-	according to reg state the proper getcredentials will be called
+	gov.nist.sip.proxy.registrar.Registrar.java: dbManager.checkRegister(username)
+		If username is already on database then register request returns NOT_FOUND. This response is handled by the sip communicator SipManager.java
+		
+SipCommunicator's side:
+		SipManager.java: if (method.equals(Request.REGISTER)) 
+							this.registrationState = new RegisterAndLogin(securityAuthority)
 	
+		
+Check user registration:
+	login of user existing in database: ok
+	login of user not existing in database: registration window pops up
+	register of user existing in database: alerts user that username is taken
+	register of user not existing in database: ok

@@ -13,6 +13,7 @@ gov.nist.sip.proxy.registrar -> Registrar.java
 New:
 net.java.sip.communicator.db -> RegisterDB.java
 net.java.sip.communicator.gui -> RegistrationSplash.java
+net.java.sip.communicator.sip.security -> RegistrationState.java, RegisterAndLogin.java, OnlyLogin.java
 
 Modified:
 net.java.sip.communicator.gui -> AuthenticationSplash.java, GuiManager.java
