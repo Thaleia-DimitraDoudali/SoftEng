@@ -44,8 +44,17 @@ public class ManageBilling {
 		long duration = (long) Math.ceil((System.currentTimeMillis() - billObj.startTime) / (double) 1000);
 		System.out.println("Duration = " + duration);
 		
-		//Set duration on billing record
-		billingDB.setBillingRecord(billObj.id, duration);
+		String plan = billingDB.getPlan(billObj.caller);
+		System.out.println(plan);
+		
+		//Calculate cost through factory method
+		BillingPolicyFactory billFactory = new BillingPolicyFactory();
+		BillingPolicy billPolicy = billFactory.getBillingPolicy(plan);
+		double cost = billPolicy.calculateCost(duration);
+		System.out.println(cost);
+		
+		//Set duration on billing record AND COST
+		billingDB.setBillingRecord(billObj.id, duration, cost);
 	}
 	
 

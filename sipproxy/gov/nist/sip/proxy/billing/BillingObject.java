@@ -13,6 +13,6 @@ public class BillingObject {
 	}
 	
 	public void print() {
-		System.out.println("id = " + id + " start time = " + startTime + " caller = " + caller);
+		System.out.println("id = " + id + " start time = " + startTime + " caller = " + caller );
 	}
 }

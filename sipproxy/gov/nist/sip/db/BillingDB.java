@@ -46,12 +46,12 @@ public class BillingDB {
 		}		
 	}
 	
-	public void setBillingRecord(int id, long duration) {
+	public void setBillingRecord(int id, long duration, double cost) {
 		try {
 			if (connection == null)
 				connect();
 			statement = connection.createStatement();
-			String sql = String.format("UPDATE billing SET duration = %d WHERE id = %d LIMIT 1;", duration, id);
+			String sql = String.format("UPDATE billing SET duration = %d, cost = %.2f WHERE id = %d LIMIT 1;", duration, cost, id);
 			statement.executeUpdate(sql);
 		} catch (SQLException e) {
 			// Auto-generated catch block
@@ -59,6 +59,20 @@ public class BillingDB {
 		}	
 	}
 	
+	public String getPlan(String caller) {
+		String plan = "";
+		try {
+			statement = connection.createStatement();
+			String sql = "SELECT plan FROM users where username = '" + caller + "'";
+			ResultSet rs = statement.executeQuery(sql);
+			if (rs.next())
+				plan = rs.getString("plan");
+		} catch (SQLException e) {
+			//Auto-generated catch block
+			e.printStackTrace();
+		}
+		return plan;
+	}
 	
 	public BillingObject getBillingRecord(String caller, String callee) {
 		try {

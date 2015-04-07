@@ -2,7 +2,8 @@
 
 New:
 gov.nist.sip.db -> RegisterDB.java, BillingDB.java
-gov.nist.sip.proxy.billing -> ManageBilling.java, BillingObject.java
+gov.nist.sip.proxy.billing -> ManageBilling.java, BillingObject.java, BillingPolicy.java, 
+								GeneralBillingPolicy.java, StudentBillingPolicy.java, FreeWeekendBillingPolicy.java, BillingPolicyFactory.java
 
 Modified:
 gov.nist.sip.proxy.registrar -> Registrar.java
