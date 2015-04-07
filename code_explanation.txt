@@ -41,17 +41,29 @@ Check user registration:
 	register of user not existing in database: ok
 	
 	
-How Billing works:
-	1. gov.nist.sip.proxy.Proxy.java: function Proxy(String confFile) creates the proxy. 
+How Billing works (all is on the proxy's side):
+	1. When registering a user now we also choose his billing plan (even if General we have to click on it to activate ActionListener)
+	2. gov.nist.sip.proxy.Proxy.java: function Proxy(String confFile) creates the proxy. 
 		There we create a new billing manager manageBilling = new ManageBilling()
 		manageBilling.startBilling(request) when proxy receives an ACK
 		manageBilling.stopBilling(request) when proxy receives BYE
-	2. gov.nist.sip.proxy.billing.ManageBilling.java:
+	3. gov.nist.sip.proxy.billing.ManageBilling.java:
 		startBilling():
-			sip request header has certain fields (google it), so we extract caller and callee from the headers, and we save them on the database.
-			caller will be the one charged at the end.			
+			sip request header has certain fields, so we extract caller and callee from the headers, and we save them on the database.
+			caller will be the one charged at the end. We set duration as -1 which indicates that this call has not ended yet.			
 		stopBilling():
-			we extract from the database the caller's record into a billing object, see what the current time is and set duration.
+			we extract from the database the caller's record into a billing object, see what the current time is and calculate duration.
+			About calculating the cost:
+				We implement factory method design pattern for the different billing policies. 
+				First, we have a BillingPolicy interface with a calculateCost function. 
+				Then, we have three billing plans that implement that interface -> General, Student, FreeWeekends, calculating the cost accordingly.
+				Finally, we have a billing policy factory that according to the plan returns the equivalent billing policy subclass.
+				The whole point of a factory method is the following 3 commands on stopBilling:
+					BillingPolicyFactory billFactory = new BillingPolicyFactory();
+					BillingPolicy billPolicy = billFactory.getBillingPolicy(plan);
+					double cost = billPolicy.calculateCost(duration);
+				We now have calculated duration and cost and we update the relevant record on the database.
+				
 	
 	
 	
