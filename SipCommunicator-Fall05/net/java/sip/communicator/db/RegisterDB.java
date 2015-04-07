@@ -47,15 +47,15 @@ public class RegisterDB {
 		
 	}
 	
-	public void registerToDB(String username, String passwd, String email, String creditCard) {
+	public void registerToDB(String username, String passwd, String email, String creditCard, String plan) {
 		
 		try {
 			if (connection == null)
 				register();
 			statement = connection.createStatement();
 			String sql = String
-					.format("INSERT INTO users set username = '%s', email = '%s', password = '%s', creditCard = '%s'",
-							username, email, passwd, creditCard);
+					.format("INSERT INTO users set username = '%s', email = '%s', password = '%s', creditCard = '%s', plan = '%s'",
+							username, email, passwd, creditCard, plan);
 			System.out.println(sql);
 			statement.execute(sql);
 		} catch (SQLException e) {

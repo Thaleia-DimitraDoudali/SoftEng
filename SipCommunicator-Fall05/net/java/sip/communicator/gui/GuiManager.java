@@ -696,6 +696,11 @@ public class GuiManager
 	public String getCreditCard() {
 		return registrationSplash.creditCardNo;
 	}
+	
+	public String getPlan() {
+		return registrationSplash.plan;
+	}
+	
 	/*
 	 * Check if register button is checked
 	 */

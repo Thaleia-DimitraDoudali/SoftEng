@@ -844,7 +844,7 @@ public class SipCommunicator
 				// Register with the db manager here
 				rm.registerToDB(guiManager.getAuthenticationUserName(),
 					String.valueOf(guiManager.getAuthenticationPassword()),
-					guiManager.getEmail(), guiManager.getCreditCard());
+					guiManager.getEmail(), guiManager.getCreditCard(), guiManager.getPlan());
 			}
 			return credentials;
 		} finally {
