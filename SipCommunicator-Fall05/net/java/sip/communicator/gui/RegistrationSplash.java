@@ -84,7 +84,7 @@ public class RegistrationSplash extends JDialog implements ActionListener{
 	JTextField mailTextField = null;
 	JTextField creditCardTextField = null;
 	JPasswordField passwordTextField = null;
-	String plan = "";
+	String plan = "General";
 	/**
 	 * Command string for a cancel action (e.g., a button). This string is never
 	 * presented to the user and should not be internationalized.

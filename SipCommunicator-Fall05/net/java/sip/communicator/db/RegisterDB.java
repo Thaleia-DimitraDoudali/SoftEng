@@ -47,6 +47,25 @@ public class RegisterDB {
 		
 	}
 	
+	public boolean checkPassword(String username, char[] password) {
+		try {
+			if (connection == null)
+				register();
+			statement = connection.createStatement();
+			String sql = "SELECT password FROM users where username = '" + username + "'";
+			ResultSet rs = statement.executeQuery(sql);
+			if (rs.next()) {
+				String pass = String.copyValueOf(password);
+				System.out.println(pass + " vs " + rs.getString("password"));
+				return (pass.equals(rs.getString("password")));
+			}
+		} catch (SQLException e) {
+			//Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
 	public void registerToDB(String username, String passwd, String email, String creditCard, String plan) {
 		
 		try {

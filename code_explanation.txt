@@ -35,7 +35,7 @@ SipCommunicator's side:
 	
 		
 Check user registration:
-	login of user existing in database: ok
+	login of user existing in database: ok - Added password check!
 	login of user not existing in database: registration window pops up
 	register of user existing in database: alerts user that username is taken
 	register of user not existing in database: ok

@@ -805,7 +805,15 @@ public class SipCommunicator
 
 			if (guiManager.shouldRegister())
 				return obtainCredentialsAndRegister();
-            
+			
+			//At this point only login, so we do a password check since we know that the username is correct
+			RegisterDB rm = new RegisterDB();
+			boolean passwordCheck = rm.checkPassword(guiManager.getAuthenticationUserName(), guiManager.getAuthenticationPassword());
+            if (!passwordCheck) {
+				JOptionPane.showMessageDialog(new Frame(), "Wrong Password");
+            	this.obtainCredentials(realm, defaultValues);
+            }
+			
             UserCredentials credentials = new UserCredentials();
 
             credentials.setUserName(guiManager.getAuthenticationUserName());
