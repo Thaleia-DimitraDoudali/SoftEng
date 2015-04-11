@@ -95,6 +95,7 @@ public class RegistrationSplash extends JDialog implements ActionListener{
 
 	// Components we need to manipulate after creation
 	private JButton registerButton = null;
+    private JButton cancelButton = null;
 
 	/**
 	 * Creates new form RegistrationSplash
@@ -353,6 +354,15 @@ public class RegistrationSplash extends JDialog implements ActionListener{
 		});
 		buttonPanel.add(registerButton);
 
+		cancelButton = new JButton();
+	    cancelButton.setText("Cancel");
+	    cancelButton.setActionCommand(CMD_CANCEL);
+	    cancelButton.addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent event) {
+	    		dialogDone(event);
+	        }});
+	    buttonPanel.add(cancelButton);
+		
 		c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 6;
