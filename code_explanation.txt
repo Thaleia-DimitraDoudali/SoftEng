@@ -69,7 +69,7 @@ Forwarding:
 		Each user is allowed to forward his calls to only one user. That's why user is primary key.
 		
 	Proxy's side:
-		Proxy should be the one that just checks the database and forms the new call request to the forward user. It does that on Proxy.java
+		Proxy should be the one that just checks the database when receiving a request.invite and forms the new call request to the forward user. It does that on Proxy.java
 	gov.nist.sip.db.ForwardDB.java:
 		getForward(caller): return the user to whom the call should be forwarded.
 	gov.nist.sip.proxy.forwarding.ForwardingService.java:
@@ -117,9 +117,52 @@ Forwarding:
 				In this way, we find each possible circle. BONUS!!!
 			When the toUser has no forwarding entry we move on to setting the database entry for forwarding, by deleting the old one.
 	
+Blocking:
+
+	Proxy's side:
+		Proxy should check the DB when receiving a request.invite to see if the caller has been blocked by the callee, and return busy response to caller
+	gov.nist.sip.db.BlockDB.java:
+		getBlock(String blocked, String blockedFrom): returns true if there is an entry for blockedFrom, blocked
+	gov.nist.sip.db.BlockDB.BlockingService:
+		boolean checkIfBlock(Request request): checks the incoming request and returns true if the caller has been blocked by the callee.
+	gov.nist.sip.proxy.Proxy.java:
+		if blocked: creates response BUSY
 	
+	Sip Communicator's side:
+	net.java.sip.communicator.gui.PhoneFrame.java:
+		puts the blocking button on the phone frame
+	net.java.sip.communicator.gui.GuiManager.java:	
+		blockButton_actionPerformed: 
+			show blocking splash
+			handleGetBlockList()
+			handleNewBlockList()
+	net.java.sip.communicator.gui.event.UserActionListener:	
+		void handleGetBlockList()
+		void handleNewBlockList() these are implemented on SipCommunicator.java
+	net.java.sip.communicator.SipCommunicator.java:	
+		handleGetBlockList():
+			blockDB.getBlocks() in order to show to the user who he has blocked
+		handleNewBlockList():
+			blockClient.blockUser(fromUser, toUser);
+			blockClient.unblockUser(fromUser, toUser);
+	net.java.sip.communicator.gui.BlockSplash.java:
+		sets the toUser string entered by the user on the block window.
+	net.java.sip.communicator.forwarding.BlockClient.java: 
+		responsible for calling the BlockDB's functions.	
+	net.java.sip.communicator.db.BlockDB.java:
+		getBlocks(): Returns formatted string with blocked users.
+		unblockUser(): delete the entry from the database
+		blockUser(String fromUser, String toUser):
+			checks if the toUser exists on the database and throws NoSuchElementException in case no such user found
+			if already blocked then do nothing
+			else insert into the blocking database
+			
 	
-	
+Call history:
+		Add "Calls" button at phoneFrame
+		Activate this button at GuiManager and call from there the CallsSplash constructor
+		At calls splash use billingDB to return a string with the user's call history
+
 	
 	
 	

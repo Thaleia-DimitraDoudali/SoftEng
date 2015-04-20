@@ -1,0 +1,25 @@
+CREATE TABLE forwarding (
+	forward_from VARCHAR(200) PRIMARY KEY,
+	forward_to VARCHAR(200) NOT NULL
+);
+
+sipproxy:
+	new:
+		gov.nist.sip.db.ForwardDB
+		gov.nist.sip.proxy.forwarding.ForwardingService
+	modified:
+		gov.nist.sip.proxy
+		
+SipCommunicator:
+	new:
+		net.java.sip.communicator.db.ForwardDB
+		net.java.sip.communicator.gui.ForwardSplash
+		net.java.sip.communicator.forwarding.ForwardClient
+	
+	modified:
+		net.java.sip.communicator.SipCommunicator
+		net.java.sip.communicator.gui.GuiManager
+		net.java.sip.communicator.gui.PhoneFrame
+		net.java.sip.communicator.gui.event.UserActionListener
+		
+

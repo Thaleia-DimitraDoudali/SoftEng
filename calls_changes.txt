@@ -1,0 +1,11 @@
+--Sip Communicator--
+
+modified: 
+			net.java.sip.communicator.gui -> GuiManager.java
+			net.java.sip.communicator.gui -> PhoneFrame.java
+			
+new:
+			net.java.sip.communicator.gui -> CallsSplash.java
+			net.java.sip.communicator.db -> BillingDB.java
+			
+Shows the calls which the user was charged for.			

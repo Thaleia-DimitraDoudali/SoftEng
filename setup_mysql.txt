@@ -17,3 +17,10 @@
 	start_time bigint(20),
 	duration bigint(20),
 	cost decimal(10,3));
+8. mysql> CREATE TABLE blocking (
+	block_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, 
+	blockedFrom VARCHAR(200),
+	blocked VARCHAR(200));
+9. mysql> CREATE TABLE forwarding (
+	forward_from VARCHAR(200) PRIMARY KEY,
+	forward_to VARCHAR(200) NOT NULL);

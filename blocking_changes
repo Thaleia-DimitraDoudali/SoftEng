@@ -1,0 +1,35 @@
+--Proxy--
+
+modified:	gov.nist.sip.proxy -> Proxy.java
+
+new:		gov.nist.sip.db -> blockDB.java
+			gov.nist.sip.proxy.blocking -> blockingService.java
+
+			
+			
+			
+--Sip Communicator--
+			
+modified:	net.java.sip.communicator -> SipCommunicator.java
+			net.java.sip.communicator.gui -> GuiManager.java
+			net.java.sip.communicator.gui -> PhoneFrame.java
+			net.java.sip.communicator.gui.event -> UserActionListener.java
+			
+new:		net.java.sip.communicator.blocking -> blockClient.java
+			net.java.sip.communicator.db -> BlockDB.java
+			net.java.sip.communicator.gui -> BlockSplash.java
+
+
+mysql> CREATE TABLE blocking (
+	block_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, 
+	blockedFrom VARCHAR(200),
+	blocked VARCHAR(200));
+	
+	
+Check:
+1. If 'blockedFrom' blocks 'blocked' busy when 'blocked' calls 'blockedFrom'
+2. Check db when blocking
+3. Check db when unblocking
+4. Print message if 'blocked' there is not in the db
+
+SRS, SDD edited
