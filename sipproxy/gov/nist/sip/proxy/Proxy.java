@@ -9,7 +9,7 @@ import javax.sip.header.*;
 import javax.sip.address.*;
 
 import gov.nist.sip.proxy.registrar.*;
-
+import gov.nist.sip.proxy.forwarding.ForwardingService;
 import java.text.ParseException;
 import java.io.File;
 import java.io.FileReader;
@@ -17,6 +17,7 @@ import java.io.IOException;
 
 import gov.nist.sip.proxy.authentication.*;
 import gov.nist.sip.proxy.billing.ManageBilling;
+import gov.nist.sip.proxy.blocking.*;
 import gov.nist.sip.proxy.presenceserver.*;
 import gov.nist.sip.proxy.router.*;
 import gov.nist.javax.sip.header.*;
@@ -58,8 +59,14 @@ public class Proxy implements SipListener  {
     protected RequestForwarding requestForwarding;
     protected ResponseForwarding responseForwarding;
     
+    //forwarding
+    protected ForwardingService forwardingService;
+    
     //billing
     protected ManageBilling manageBilling;
+	
+	//blocking
+	protected BlockingService blockingService;
 
    
     public RequestForwarding getRequestForwarding() {
@@ -154,8 +161,12 @@ public class Proxy implements SipListener  {
                     registrar=new Registrar(this);
                     requestForwarding=new RequestForwarding(this);
                     responseForwarding=new ResponseForwarding(this);
+                    //forwarding
+                    forwardingService = new ForwardingService(this);
                     //billing
-                    manageBilling = new ManageBilling();                }
+                    manageBilling = new ManageBilling();
+					//blocking
+					blockingService = new BlockingService(this);	}
             }
             catch (Exception ex) {
                 System.out.println
@@ -573,11 +584,39 @@ public class Proxy implements SipListener  {
 		}
 		return;
 	    }
-
+	    
+	    //Only when request is an invite should these checks happen!!
+	    
+	    if ( request.getMethod().equals(Request.INVITE) ) {
+	    
+	    	//blocking
+	    	boolean blocked = blockingService.checkIfBlock(request);
+	    	if (blocked) {
+	    		Response response = messageFactory.createResponse(Response.BUSY_HERE, request);
+	    		if (serverTransaction != null)
+	    			serverTransaction.sendResponse(response);
+	    		else
+	    			sipProvider.sendResponse(response);
+	    		return;
+	    	}
 		
-
-
-	
+	    	//to come at this point, means that the direct caller is not blocked, so we check for forwarding
+		
+	    	//forwarding
+	    	request = forwardingService.checkAndSetForwarding(request);
+	    	System.out.println(request.toString());
+	    	blocked = blockingService.checkIfBlock(request);
+	    	if (blocked) {
+	    		Response response = messageFactory.createResponse(
+	    				Response.BUSY_HERE, request);
+	    		if (serverTransaction != null)
+	    			serverTransaction.sendResponse(response);
+	    		else
+	    			sipProvider.sendResponse(response);
+	    		return;
+	    	}
+		
+	    }
 	     // Forward to next hop but dont reply OK right away for the
 	  // BYE. Bye is end-to-end not hop by hop!
 	  if (request.getMethod().equals(Request.BYE) ) {
@@ -589,7 +628,6 @@ public class Proxy implements SipListener  {
 		}
 	    
 	    manageBilling.stopBilling(request);
-	     
 		Dialog d = serverTransaction.getDialog();
 		TransactionsMapping transactionsMapping = 
 			(TransactionsMapping) d.getApplicationData();
