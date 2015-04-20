@@ -64,9 +64,58 @@ How Billing works (all is on the proxy's side):
 					double cost = billPolicy.calculateCost(duration);
 				We now have calculated duration and cost and we update the relevant record on the database.
 				
-	
-	
-	
+Forwarding:
+	DB's side:
+		Each user is allowed to forward his calls to only one user. That's why user is primary key.
+		
+	Proxy's side:
+		Proxy should be the one that just checks the database and forms the new call request to the forward user. It does that on Proxy.java
+	gov.nist.sip.db.ForwardDB.java:
+		getForward(caller): return the user to whom the call should be forwarded.
+	gov.nist.sip.proxy.forwarding.ForwardingService.java:
+		checkAndSetForwarding(Request request): dbManager.getForward(oldToUser): checks the database to see to whom the oldToUser wants to forward 
+		the call. Then it creates the new Request, so that the call goes to the forward user and not to the original.
+	gov.nist.sip.proxy.Proxy.java:
+		This is where the forwarding is done!!
+		the only code added is the one after the comment: //forwarding
+		We get the new request from forwardingService and check if the forward user is blocked from the original caller
+		
+	Sip Communicator's side:
+
+	net.java.sip.communicator.gui.PhoneFrame.java:
+		puts the forward button on the phone frame
+	net.java.sip.communicator.gui.GuiManager.java:
+		forwardButton_actionPerformed: show forward splash
+		handleGetForwardRequest();
+		handleNewForwardRequest();
+	net.java.sip.communicator.gui.event.UserActionListener:
+		void handleGetForwardRequest()
+		void handleNewForwardRequest() these are implemented on SipCommunicator.java
+	net.java.sip.communicator.SipCommunicator.java:
+		void handleGetForwardRequest():
+			guiManager.setForwardTo(forwardClient.getForward(guiManager 	 	
+					.getAuthenticationUserName()))
+		void handleNewForwardRequest():
+			forwardClient.setForward(fromUser, toUser);
+			checks if user entered "", or invalid username, or circle by handling the exceptions
+	net.java.sip.communicator.gui.ForwardSplash.java:
+		sets the toUser string entered by the user on the forward window. 
+	net.java.sip.communicator.forwarding.ForwardClient.java: 
+		responsible for calling the forwardDB's functions.
+	net.java.sip.communicator.db.ForwardDB.java:
+		void resetForward(String user): deletes the user's forward entry 
+		String getForward(String username): returns the forward_to user
+		void setForward(String fromUser, String toUser):
+			checks if the toUser exists on the database and throws NoSuchElementException in case no such user found
+			checks if there is a forwarding circle and throws RuntimeException in case of a circle forwarding:
+				We are using a HashSet, which is a set using a hash table for storage. We put in it the fromUser and toUser.
+				We start from toUser and see to whom he forwards his calls. If this user is already on the set then a circle is created and 
+				we throw exception, otherwise we add him to the set. 
+					if (!userSet.add(forward_to))
+						throw new RuntimeException();
+				If added to the set we continue with this user as a fromUser to see to whom he forwards his calls, etc.
+				In this way, we find each possible circle. BONUS!!!
+			When the toUser has no forwarding entry we move on to setting the database entry for forwarding, by deleting the old one.
 	
 	
 	

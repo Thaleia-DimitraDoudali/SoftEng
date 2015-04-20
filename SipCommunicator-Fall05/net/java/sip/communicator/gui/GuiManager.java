@@ -120,7 +120,10 @@ public class GuiManager
     MySipphoneAction mySipphoneAction = null;
     private AuthenticationSplash authenticationSplash = null;
 	private RegistrationSplash registrationSplash = null;
-
+	//forwarding
+	private ForwardSplash forwardSplash = null; 
+	//blocking
+	private BlockSplash blockSplash = null;
 
     static boolean isThisSipphoneAnywhere = false;
 
@@ -216,6 +219,16 @@ public class GuiManager
     {
         contactList.setModel(model);
     }
+	
+    //forwarding
+    public void setForwardTo(String toUser) {
+		forwardSplash.setForwardTo(toUser);
+	}
+    
+	//blocking
+	public void setBlockList(String blocklist) {
+		blockSplash.blockList(blocklist);
+	}
 
     /**
      * Sets the PresenceController instance that would fire corresponding events
@@ -256,6 +269,10 @@ public class GuiManager
         }
         phoneFrame.videoPane.updateUI();
     }
+    
+    public void alertError(String message) {
+		JOptionPane.showMessageDialog(null, message);
+	}
 
     public void removePlayerComponents()
     {
@@ -283,6 +300,13 @@ public class GuiManager
         phoneFrame.answerButton.setEnabled(enabled);
     }
 
+	//blocking + forwarding
+	public void setAdditionalActionsEnabled(boolean enabled) {
+		phoneFrame.forwardButton.setEnabled(enabled);
+		phoneFrame.blockButton.setEnabled(enabled);
+ 	}
+	
+	
     public void addUserActionListener(UserActionListener l)
     {
         listeners.add(l);
@@ -384,6 +408,23 @@ public class GuiManager
         }
     }
 
+    //forwarding
+    @SuppressWarnings("deprecation")
+	void forwardButton_actionPerformed(ActionEvent evt) {
+		// TODO temporarily close alerts from here.
+		if (forwardSplash != null)
+			forwardSplash.dispose();
+		forwardSplash = new ForwardSplash(phoneFrame, true);
+		for (int i = listeners.size() - 1; i >= 0; i--) {
+			((UserActionListener) listeners.get(i)).handleGetForwardRequest();
+		}
+		forwardSplash.show();
+		for (int i = listeners.size() - 1; i >= 0; i--) {
+			((UserActionListener) listeners.get(i)).handleNewForwardRequest();
+		}
+
+	}
+    
     void fireExitRequest()
     {
         for (int i = listeners.size() - 1; i >= 0; i--) {
@@ -397,6 +438,21 @@ public class GuiManager
             ( (UserActionListener) listeners.get(i)).handleDebugToolLaunch();
         }
     }
+	
+	//blocking
+
+	void blockButton_actionPerformed(ActionEvent evnt) {
+		 if (blockSplash != null)
+ 			 blockSplash.dispose(); 
+ 		 blockSplash = new BlockSplash (phoneFrame, true);
+		for (int i = listeners.size() - 1; i>=0; i--) {
+			 ((UserActionListener) listeners.get(i)).handleGetBlockList();
+		}
+		blockSplash.show();
+		for (int i = listeners.size() -1; i>=0; i--){
+			 ((UserActionListener) listeners.get(i)).handleNewBlockRequest();
+		}
+	}
 
 //============================== Configuration ==============================
 /** @todo remove after testing */
@@ -555,6 +611,7 @@ public class GuiManager
 //              console.error(ex);
 //            }
             //configFrame.show();
+			
         }
     }
 
@@ -631,6 +688,19 @@ public class GuiManager
                 hangupButton_actionPerformed(evt);
             }
         });
+        //forwarding
+        phoneFrame.forwardButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				forwardButton_actionPerformed(evt);
+			}
+		});
+        //blocking
+      	phoneFrame.blockButton.addActionListener(new ActionListener() {
+      		public void actionPerformed(ActionEvent evt) {
+      			blockButton_actionPerformed(evt);
+      		}
+      	});
+      	
         phoneFrame.addWindowListener(new WindowAdapter()
         {
             public void windowClosing(WindowEvent evt)
@@ -688,6 +758,14 @@ public class GuiManager
 		return authenticationSplash.password == null ? registrationSplash.password
 				: authenticationSplash.password;
 	}
+	
+	public String getUserName() {
+		return registrationSplash.userName;
+	}
+
+	public char[] getPassword() {
+		return registrationSplash.password;
+	}
     
 	public String getEmail() {
 		return registrationSplash.mail;
@@ -700,6 +778,22 @@ public class GuiManager
 	public String getPlan() {
 		return registrationSplash.plan;
 	}
+	
+	//forwarding
+	public String getForwardToUser() {
+		return forwardSplash.toUser;
+	}
+	
+	//blocking
+	
+	public String getBlock(){
+		return blockSplash.toUser;
+	}
+	
+	public String getAction(){
+		return blockSplash.action;
+	}
+	
 	
 	/*
 	 * Check if register button is checked

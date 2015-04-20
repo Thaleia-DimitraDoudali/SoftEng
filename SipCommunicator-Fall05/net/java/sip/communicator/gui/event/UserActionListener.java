@@ -78,7 +78,18 @@ public interface UserActionListener
     public void handleAnswerRequest(UserCallControlEvent evt);
 
     public void handleExitRequest();
+	
+	//blocking
+	
+	public void handleGetBlockList();
+    
+    public void handleNewBlockRequest();
 
+    //forwarding
+    public void handleGetForwardRequest();
+    
+    public void handleNewForwardRequest();
+    
 /** @todo remove after testing */
 //    public void handlePropertiesSaveRequest();
 
