@@ -120,6 +120,9 @@ class PhoneFrame
 	
 	//blocking
 	JButton blockButton = new JButton();
+	
+	//calls
+	JButton callsButton = new JButton();
 
     public PhoneFrame(GuiManager guiManCallback) //throws HeadlessException
     {
@@ -197,6 +200,11 @@ class PhoneFrame
 		blockButton.setEnabled(false);
         blockButton.setMnemonic('B');;
         blockButton.setText("Block");
+        
+      //calls
+      callsButton.setEnabled(false);
+      callsButton.setMnemonic('C');;
+      callsButton.setText("Calls");
 		
         callControlButtons.setBorder(border6);
         borderLayout2.setHgap(10);
@@ -242,6 +250,9 @@ class PhoneFrame
 		
 		//forwarding
 		callControlButtons.add(forwardButton, null); 
+		
+		//calls
+		callControlButtons.add(callsButton, null); 
 		
         controlPanel.add(participantsScroll,  BorderLayout.CENTER);
         participantsScroll.setViewportView(participantsTable);

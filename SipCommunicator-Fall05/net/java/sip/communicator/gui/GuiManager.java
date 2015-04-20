@@ -300,10 +300,11 @@ public class GuiManager
         phoneFrame.answerButton.setEnabled(enabled);
     }
 
-	//blocking + forwarding
+	//blocking + forwarding + calls
 	public void setAdditionalActionsEnabled(boolean enabled) {
 		phoneFrame.forwardButton.setEnabled(enabled);
 		phoneFrame.blockButton.setEnabled(enabled);
+		phoneFrame.callsButton.setEnabled(enabled);
  	}
 	
 	
@@ -452,6 +453,14 @@ public class GuiManager
 		for (int i = listeners.size() -1; i>=0; i--){
 			 ((UserActionListener) listeners.get(i)).handleNewBlockRequest();
 		}
+	}
+	
+	//calls
+	void callsButton_actionPerformed(ActionEvent evnt) {
+		
+		System.out.println("Calls button pressed");
+		CallsSplash callsSplash = new CallsSplash(phoneFrame, true, this.getAuthenticationUserName()); 
+		callsSplash.show();
 	}
 
 //============================== Configuration ==============================
@@ -698,6 +707,13 @@ public class GuiManager
       	phoneFrame.blockButton.addActionListener(new ActionListener() {
       		public void actionPerformed(ActionEvent evt) {
       			blockButton_actionPerformed(evt);
+      		}
+      	});
+      	
+      //calls
+      	phoneFrame.callsButton.addActionListener(new ActionListener() {
+      		public void actionPerformed(ActionEvent evt) {
+      			callsButton_actionPerformed(evt);
       		}
       	});
       	

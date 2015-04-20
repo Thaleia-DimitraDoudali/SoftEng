@@ -52,6 +52,7 @@ public class BillingDB {
 				connect();
 			statement = connection.createStatement();
 			String sql = String.format("UPDATE billing SET duration = %d, cost = %.2f WHERE id = %d LIMIT 1;", duration, cost, id);
+			System.out.println(sql);
 			statement.executeUpdate(sql);
 		} catch (SQLException e) {
 			// Auto-generated catch block
@@ -64,6 +65,7 @@ public class BillingDB {
 		try {
 			statement = connection.createStatement();
 			String sql = "SELECT plan FROM users where username = '" + caller + "'";
+			System.out.println(sql);
 			ResultSet rs = statement.executeQuery(sql);
 			if (rs.next())
 				plan = rs.getString("plan");
