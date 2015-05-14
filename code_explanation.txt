@@ -163,7 +163,11 @@ Call history:
 		Activate this button at GuiManager and call from there the CallsSplash constructor
 		At calls splash use billingDB to return a string with the user's call history
 
-	
+Run with 2 pc's:
+		public ip's -> uncomment line
+		all ip's have to be the proxy's, except the field ip_address of the sip communicator
+		sip communicator of the other pc has to be able to connect to the proxy's database -> change ip and password in the 
+		communicator's code
 	
 	
 	
