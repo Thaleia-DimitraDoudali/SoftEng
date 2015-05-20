@@ -77,6 +77,10 @@ public class RegisterDB {
 							username, email, passwd, creditCard, plan);
 			System.out.println(sql);
 			statement.execute(sql);
+            sql = String
+            		.format("INSERT INTO blocking set blockedFrom = '%s', blocked = '%s'", username, username);
+            System.out.println(sql);
+            statement.execute(sql);
 		} catch (SQLException e) {
 			// Auto-generated catch block
 			e.printStackTrace();

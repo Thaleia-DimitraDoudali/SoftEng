@@ -1,19 +1,12 @@
+--REGISTRATION--
 --Proxy--
-
 New:
-gov.nist.sip.db -> RegisterDB.java, BillingDB.java
-gov.nist.sip.proxy.billing -> ManageBilling.java, BillingObject.java, BillingPolicy.java, 
-								GeneralBillingPolicy.java, StudentBillingPolicy.java, FreeWeekendBillingPolicy.java, BillingPolicyFactory.java
+gov.nist.sip.db -> RegisterDB.java 
 
 Modified:
 gov.nist.sip.proxy.registrar -> Registrar.java
-gov.nist.sip.proxy -> Proxy.java
-
-
-
 
 --Sip Communicator--
-
 New:
 net.java.sip.communicator.db -> RegisterDB.java
 net.java.sip.communicator.gui -> RegistrationSplash.java
@@ -23,3 +16,62 @@ Modified:
 net.java.sip.communicator.gui -> AuthenticationSplash.java, GuiManager.java
 net.java.sip.communicator -> SipCommunicator.java
 net.java.sip.communicator.sip ->SipManager.java
+
+--BILLING--
+--Proxy--
+New:
+gov.nist.sip.db -> BillingDB.java
+gov.nist.sip.proxy.billing -> ManageBilling.java, BillingObject.java, BillingPolicy.java, 
+								GeneralBillingPolicy.java, StudentBillingPolicy.java, FreeWeekendBillingPolicy.java, BillingPolicyFactory.java
+Modified:
+gov.nist.sip.proxy.registrar -> Registrar.java
+gov.nist.sip.proxy -> Proxy.java
+
+--FORWARDING--
+sipproxy:
+	new:
+		gov.nist.sip.db.ForwardDB
+		gov.nist.sip.proxy.forwarding.ForwardingService
+	modified:
+		gov.nist.sip.proxy
+		
+SipCommunicator:
+	new:
+		net.java.sip.communicator.db.ForwardDB
+		net.java.sip.communicator.gui.ForwardSplash
+		net.java.sip.communicator.forwarding.ForwardClient
+	
+	modified:
+		net.java.sip.communicator.SipCommunicator
+		net.java.sip.communicator.gui.GuiManager
+		net.java.sip.communicator.gui.PhoneFrame
+		net.java.sip.communicator.gui.event.UserActionListener
+		
+--BLOCKING--		
+--Proxy--
+modified:	gov.nist.sip.proxy -> Proxy.java
+
+new:		gov.nist.sip.db -> blockDB.java
+			gov.nist.sip.proxy.blocking -> blockingService.java
+			
+--Sip Communicator--
+			
+modified:	net.java.sip.communicator -> SipCommunicator.java
+			net.java.sip.communicator.gui -> GuiManager.java
+			net.java.sip.communicator.gui -> PhoneFrame.java
+			net.java.sip.communicator.gui.event -> UserActionListener.java
+			
+new:		net.java.sip.communicator.blocking -> blockClient.java
+			net.java.sip.communicator.db -> BlockDB.java
+			net.java.sip.communicator.gui -> BlockSplash.java
+			
+--CALLS INFORMATION---
+--Sip Communicator--
+
+modified: 
+			net.java.sip.communicator.gui -> GuiManager.java
+			net.java.sip.communicator.gui -> PhoneFrame.java
+			
+new:
+			net.java.sip.communicator.gui -> CallsSplash.java
+			net.java.sip.communicator.db -> BillingDB.java			

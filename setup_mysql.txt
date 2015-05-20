@@ -16,7 +16,7 @@
 	callee VARCHAR(200),
 	start_time bigint(20),
 	duration bigint(20),
-	cost decimal(10,3));
+	cost decimal(10,2));
 8. mysql> CREATE TABLE blocking (
 	block_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, 
 	blockedFrom VARCHAR(200),

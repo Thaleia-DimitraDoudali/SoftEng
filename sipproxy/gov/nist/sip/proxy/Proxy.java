@@ -1242,10 +1242,11 @@ public class Proxy implements SipListener  {
      * throws Exception that which can be caught by the upper application
      */
     public void exit()  throws Exception {
+    	
         Iterator sipProviders=sipStack.getSipProviders();
         if (sipProviders!=null) {
             while( sipProviders.hasNext()) {
-                SipProvider sp=(SipProvider)sipProviders.next();                    
+                SipProvider sp=(SipProvider)sipProviders.next();
                 sp.removeSipListener(this);
                 sipStack.deleteSipProvider(sp);
                 sipProviders=sipStack.getSipProviders();

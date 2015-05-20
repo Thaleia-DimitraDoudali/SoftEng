@@ -34,13 +34,13 @@ public class BlockDB {
 		try {
 			if (connection == null) connect();			
 			statement = connection.createStatement();
-			String sql = String.format("SELECT blocked FROM blocking WHERE blockedFrom = '" + username + "' ");
+			String sql = String.format("SELECT * FROM blocking WHERE blockedFrom = '" + username + "' ");
 			System.out.println(sql);
 			ResultSet rs = statement.executeQuery(sql);
 			
 			while (rs.next()) {
-				
-				blocklist = blocklist + rs.getString("blocked") + "\n";
+                if (!rs.getString("blocked").equals(rs.getString("blockedFrom")))
+                	blocklist = blocklist + rs.getString("blocked") + "\n";
 			}
 			if (blocklist.isEmpty()){
 				blocklist = "no users blocked\n\t ...yet";

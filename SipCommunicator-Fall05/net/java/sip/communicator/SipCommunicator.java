@@ -76,6 +76,7 @@ import net.java.sip.communicator.sip.event.*;
 import net.java.sip.communicator.sip.security.*;
 
 import java.io.IOException;
+import javax.swing.JOptionPane;
 
 import net.java.sip.communicator.plugin.setup.*;
 import net.java.sip.communicator.sip.simple.*;
@@ -809,6 +810,14 @@ public class SipCommunicator implements MediaListener, UserActionListener,
 
 			if (guiManager.shouldRegister())
 				return obtainCredentialsAndRegister();
+			
+			//At this point only login, so we do a password check since we know that the username is correct
+			RegisterDB rm = new RegisterDB();
+			boolean passwordCheck = rm.checkPassword(guiManager.getAuthenticationUserName(), guiManager.getAuthenticationPassword());
+			if (!passwordCheck) {
+				JOptionPane.showMessageDialog(new Frame(), "Wrong Password");
+			   	this.obtainCredentials(realm, defaultValues);
+			}
 
 			UserCredentials credentials = new UserCredentials();
 
@@ -832,15 +841,22 @@ public class SipCommunicator implements MediaListener, UserActionListener,
 
 			UserCredentials credentials = new UserCredentials();
 
-			credentials.setUserName(guiManager.getUserName());
-			credentials.setPassword(guiManager.getPassword());
+			credentials.setUserName(guiManager.getAuthenticationUserName());
+			credentials.setPassword(guiManager.getAuthenticationPassword());
 
-			// Register with the db manager here
 			RegisterDB rm = new RegisterDB();
-			rm.registerToDB(guiManager.getUserName(),
-					String.valueOf(guiManager.getPassword()),
-					guiManager.getEmail(), guiManager.getCreditCard(), guiManager.getPlan());
 
+			//Before inserting user to DB we should check is username is taken (already registered)
+			if (rm.checkRegister(guiManager.getAuthenticationUserName())) {
+				JOptionPane.showMessageDialog(new Frame(), "Username taken");
+				this.obtainCredentialsAndRegister();
+			}else {
+			
+				// Register with the db manager here
+				rm.registerToDB(guiManager.getAuthenticationUserName(),
+					String.valueOf(guiManager.getAuthenticationPassword()),
+					guiManager.getEmail(), guiManager.getCreditCard(), guiManager.getPlan());
+			}
 			return credentials;
 		} finally {
 			console.logExit();
